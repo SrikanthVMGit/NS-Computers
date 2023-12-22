@@ -1,0 +1,55 @@
+Imports Microsoft.Win32
+Imports MySql.Data.MySqlClient
+
+Public Class Login
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim conn As New MySqlConnection("Data Source=localhost;database=ns;username=root;password=system")
+        conn.Open()
+        Dim cmd As New MySqlCommand("Select * From login WHERE username=@usm AND password=@pass", conn)
+        cmd.Parameters.AddWithValue("usm", TextBox1.Text.Trim)
+        cmd.Parameters.AddWithValue("pass", TextBox2.Text.Trim)
+        Dim reader As MySqlDataReader = cmd.ExecuteReader
+        If reader.Read Then
+            Choose.Show()
+            Me.Hide()
+            TextBox1.Text = ""
+            TextBox2.Text = ""
+        ElseIf TextBox1.Text = "Srikanth" And TextBox2.Text = "1234" Then
+            Admin.Show()
+            Me.Hide()
+            TextBox1.Text = ""
+            TextBox2.Text = ""
+            CheckBox1.CheckState = False
+        ElseIf TextBox1.Text = "Nikil" And TextBox2.Text = "1234" Then
+            Admin.Show()
+            Me.Hide()
+            TextBox1.Text = ""
+            TextBox2.Text = ""
+            CheckBox1.CheckState = False
+        Else
+            MsgBox("Sorry Incorrect Username and Password", MsgBoxStyle.OkOnly, "Invalid")
+        End If
+        conn.Close()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged_1(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+        If CheckBox1.Checked = True Then
+
+            TextBox2.UseSystemPasswordChar = False
+        Else
+            TextBox2.UseSystemPasswordChar = True
+        End If
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked_1(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Register.Show()
+    End Sub
+
+    Private Sub Button2_Click_1(sender As Object, e As EventArgs) Handles Button2.Click
+        Application.Exit()
+    End Sub
+
+    Private Sub Login_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+End Class

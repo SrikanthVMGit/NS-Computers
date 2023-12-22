@@ -1,0 +1,326 @@
+﻿Imports System.Security.Cryptography.X509Certificates
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports MySql.Data.MySqlClient
+Public Class Prebuilt
+    'Product Details from database
+    Private Sub Prebuilt_Load_2(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim conn As MySqlConnection
+        Dim cmd As MySqlCommand
+        Dim reader As MySqlDataReader
+        conn = New MySqlConnection
+        conn.ConnectionString = "server=localhost;user id=root;password=system;database=ns"
+        Try
+            conn.Open()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+        'set the value of the details from the database
+        Dim query As String = "SELECT details FROM prebuilt WHERE id = '1'"
+        cmd = New MySqlCommand(query, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox1.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query1 As String = "SELECT details FROM prebuilt WHERE id = '2'"
+        cmd = New MySqlCommand(query1, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox2.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query2 As String = "SELECT details FROM prebuilt WHERE id = '3'"
+        cmd = New MySqlCommand(query2, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox3.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query3 As String = "SELECT details FROM prebuilt WHERE id = '4'"
+        cmd = New MySqlCommand(query3, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox4.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query4 As String = "SELECT details FROM prebuilt WHERE id = '5'"
+        cmd = New MySqlCommand(query4, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox5.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query5 As String = "SELECT details FROM prebuilt WHERE id = '6'"
+        cmd = New MySqlCommand(query5, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox6.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query6 As String = "SELECT details FROM prebuilt WHERE id = '7'"
+        cmd = New MySqlCommand(query6, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox7.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim query7 As String = "SELECT details FROM prebuilt WHERE id = '8'"
+        cmd = New MySqlCommand(query7, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox8.Text = reader.GetString(0)
+        End If
+        reader.Close()
+
+        'set the value of the price to the value from the database
+        Dim p1 As String = "SELECT price FROM prebuilt WHERE id = '1'"
+        cmd = New MySqlCommand(p1, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox9.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p2 As String = "SELECT price FROM prebuilt WHERE id = '2'"
+        cmd = New MySqlCommand(p2, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox10.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p3 As String = "SELECT price FROM prebuilt WHERE id = '3'"
+        cmd = New MySqlCommand(p3, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox11.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p4 As String = "SELECT price FROM prebuilt WHERE id = '4'"
+        cmd = New MySqlCommand(p4, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox12.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p5 As String = "SELECT price FROM prebuilt WHERE id = '5'"
+        cmd = New MySqlCommand(p5, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox13.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p6 As String = "SELECT price FROM prebuilt WHERE id = '6'"
+        cmd = New MySqlCommand(p6, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox14.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p7 As String = "SELECT price FROM prebuilt WHERE id = '7'"
+        cmd = New MySqlCommand(p7, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox15.Text = reader.GetString(0)
+        End If
+        reader.Close()
+        Dim p8 As String = "SELECT price FROM prebuilt WHERE id = '8'"
+        cmd = New MySqlCommand(p8, conn)
+        reader = cmd.ExecuteReader()
+        If reader.Read() Then
+            TextBox16.Text = reader.GetString(0)
+        End If
+        reader.Close()
+    End Sub
+
+    'add to cart buttons
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox1.Text
+        Dim price As Decimal = Decimal.Parse(TextBox9.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox2.Text
+        Dim price As Decimal = Decimal.Parse(TextBox10.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox3.Text
+        Dim price As Decimal = Decimal.Parse(TextBox11.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox4.Text
+        Dim price As Decimal = Decimal.Parse(TextBox12.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox5.Text
+        Dim price As Decimal = Decimal.Parse(TextBox13.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox6.Text
+        Dim price As Decimal = Decimal.Parse(TextBox14.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox7.Text
+        Dim price As Decimal = Decimal.Parse(TextBox15.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim item As String = TextBox8.Text
+        Dim price As Decimal = Decimal.Parse(TextBox16.Text)
+        Dim query As String = "INSERT INTO cart (details, price) VALUES (@item, @price);"
+        Dim cmd As New MySqlCommand(query, conn)
+        cmd.Parameters.AddWithValue("@item", item)
+        cmd.Parameters.AddWithValue("@price", price)
+        Try
+            conn.Open()
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("Item added to cart successfully.")
+        Catch ex As Exception
+            MessageBox.Show("Error adding item to cart: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+    End Sub
+
+
+    'Redirecting Buttons
+    Private Sub Button22_Click(sender As Object, e As EventArgs) Handles Button22.Click
+        Me.Hide()
+        Choose.Show()
+    End Sub
+
+    Private Sub Button23_Click(sender As Object, e As EventArgs) Handles Button23.Click
+        Me.Hide()
+        Parts.Show()
+    End Sub
+
+    Private Sub Button24_Click(sender As Object, e As EventArgs) Handles Button24.Click
+        Me.Hide()
+        Build.Show()
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Me.Hide()
+        Payment.Show()
+    End Sub
+
+    Private Sub Button25_Click(sender As Object, e As EventArgs) Handles Button25.Click
+        Me.Hide()
+        Payment.Show()
+    End Sub
+
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        Application.Exit()
+    End Sub
+End Class

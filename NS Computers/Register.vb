@@ -1,0 +1,94 @@
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports MySql.Data.MySqlClient
+
+Public Class Register
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Hide()
+    End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Login.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim connString As String = "Server=localhost;Database=ns;Uid=root;Pwd=system;"
+        Dim conn As MySqlConnection = New MySqlConnection(connString)
+        Dim emailPattern As String = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        Dim password As String = TextBox8.Text.Trim()
+
+        'Check Validation if Empty Spaces
+        If String.IsNullOrEmpty(TextBox1.Text) Then
+            MessageBox.Show("Please enter your First Name")
+            Exit Sub
+        ElseIf String.IsNullOrEmpty(TextBox7.Text) Then
+            MessageBox.Show("Please enter your Username")
+            Exit Sub
+        ElseIf String.IsNullOrEmpty(TextBox8.Text) Then
+            MessageBox.Show("Please enter your Password")
+            Exit Sub
+        ElseIf String.IsNullOrEmpty(TextBox6.Text) Then
+            MessageBox.Show("Please enter your Email")
+            Exit Sub
+        ElseIf String.IsNullOrEmpty(TextBox5.Text) Then
+            MessageBox.Show("Please enter your Address")
+            Exit Sub
+            'Valid emailcheck
+        ElseIf Not Regex.IsMatch(TextBox6.Text, emailPattern) Then
+            MessageBox.Show("Please enter a valid email address.", "Registration Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            TextBox6.Text = ""
+            TextBox6.Focus()
+            Return
+            'valid password
+        ElseIf password.Length < 6 Then
+            MessageBox.Show("Password should be at least 6 characters.")
+            TextBox8.Text = ""
+            TextBox2.Text = ""
+            TextBox8.Focus()
+            Exit Sub
+        ElseIf TextBox8.Text <> TextBox2.Text Then
+            MessageBox.Show("Passwords do not match. Please re-enter your password.")
+            TextBox8.Text = ""
+            TextBox2.Text = ""
+            TextBox8.Focus()
+            Exit Sub
+        End If
+        'Adding Details to Database
+        Try
+            conn.Open()
+            Dim query As String = "INSERT INTO login (fname, lname, username, password, email, address) VALUES (@fname, @lname, @usm, @pass, @email, @address)"
+            Dim cmd As MySqlCommand = New MySqlCommand(query, conn)
+            cmd.Parameters.AddWithValue("@fname", TextBox1.Text)
+            cmd.Parameters.AddWithValue("@lname", TextBox4.Text)
+            cmd.Parameters.AddWithValue("@usm", TextBox7.Text)
+            cmd.Parameters.AddWithValue("@pass", TextBox8.Text)
+            cmd.Parameters.AddWithValue("@email", TextBox6.Text)
+            cmd.Parameters.AddWithValue("@address", TextBox5.Text)
+            cmd.ExecuteNonQuery()
+            MessageBox.Show("User registered successfully!")
+            TextBox1.Text = ""
+            TextBox4.Text = ""
+            TextBox7.Text = ""
+            TextBox8.Text = ""
+            TextBox6.Text = ""
+            TextBox5.Text = ""
+            Login.Show()
+            Me.Hide()
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.Message)
+        Finally
+            conn.Close()
+        End Try
+
+
+
+
+
+    End Sub
+
+    Private Sub Register_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+End Class
